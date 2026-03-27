@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef4U - Menu</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/menu.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/webp" href="./assets/logo.webp">
+    <link rel="icon" type="image/webp" href="./assets/logo.webp">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <section class="navbar">
+        <header>
+            <div class="logo">
+                <a href="index.html#home" aria-label="Chef4U Home"><img src="./assets/logo.webp"
+                        alt="Chef4U Catering Services Logo" width="50" height="50"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about_us">About Us</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                </ul>
+            </nav>
+            <div class="cta">
+                <a href="https://wa.me/919898002719?text=Hi%20Chef4U!%20I%27d%20like%20to%20inquire%20about%20catering%20services"
+                    class="whatsapp" target="_blank"
+                    style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background-color: #25D366; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        aria-hidden="true" viewBox="0 0 24 24" style="margin-right: 8px;">
+                        <path fill-rule="evenodd"
+                            d="M18.403 5.633A8.92 8.92 0 0 0 12.053 3c-4.948 0-8.976 4.027-8.978 8.977 0 1.582.413 3.126 1.198 4.488L3 21.116l4.759-1.249a9 9 0 0 0 4.29 1.093h.004c4.947 0 8.975-4.027 8.977-8.977a8.93 8.93 0 0 0-2.627-6.35m-6.35 13.812h-.003a7.45 7.45 0 0 1-3.798-1.041l-.272-.162-2.824.741.753-2.753-.177-.282a7.45 7.45 0 0 1-1.141-3.971c.002-4.114 3.349-7.461 7.465-7.461a7.41 7.41 0 0 1 5.275 2.188 7.42 7.42 0 0 1 2.183 5.279c-.002 4.114-3.349 7.462-7.461 7.462m4.093-5.589c-.225-.113-1.327-.655-1.533-.73s-.354-.112-.504.112-.58.729-.711.879-.262.168-.486.056-.947-.349-1.804-1.113c-.667-.595-1.117-1.329-1.248-1.554s-.014-.346.099-.458c.101-.1.224-.262.336-.393s.149-.224.224-.374.038-.281-.019-.393c-.056-.113-.505-1.217-.692-1.666-.181-.435-.366-.377-.504-.383a10 10 0 0 0-.429-.008.83.83 0 0 0-.599.28c-.206.225-.785.767-.785 1.871s.804 2.171.916 2.321 1.582 2.415 3.832 3.387c.536.231.954.369 1.279.473.537.171 1.026.146 1.413.089.431-.064 1.327-.542 1.514-1.066s.187-.973.131-1.067-.207-.151-.43-.263"
+                            clip-rule="evenodd"></path>
+                    </svg>Chat With Us</a>
+            </div>
+            <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </header>
+    </section>
+
+    <!-- Main Content Wrapper -->
+    <main class="menu-page-container">
+
+        <!-- VIEW 1: Overview (Visible by default) -->
+        <div id="menu-overview" class="view-section active">
+
+            <!-- Hero Title -->
+            <section class="menu-hero">
+                <h1>Our Menu</h1>
+                <p>Discover our exquisite culinary offerings</p>
+                <a href="./assets/Chef4U_Menu.pdf" download="Chef4U_Menu.pdf" class="btn-download">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download Full Menu
+                </a>
+            </section>
+
+            <!-- Search Section -->
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <input type="text" id="menu-search" placeholder="Search for dishes (e.g., 'Paneer', 'Pasta')..."
+                        autocomplete="off" spellcheck="false">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <div id="search-results" class="search-results hidden"></div>
+                </div>
+            </div>
+
+            <!-- Category Grid (Index) -->
+            <section class="category-index">
+                <h2>Explore by Category</h2>
+                <div id="category-grid" class="category-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Recommendations -->
+            <section class="recommendations">
+                <h2>Chef's Recommendations</h2>
+                <div id="recommendations-list" class="recommendations-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- VIEW 2: Flipbook (Hidden by default) -->
+        <div id="book-wrapper" class="view-section book-wrapper hidden">
+            <div class="book-controls-top">
+                <button id="btn-back-overview" class="btn-back">← Back to Overview</button>
+            </div>
+
+            <div id="book">
+                <!-- Pages populated dynamically by JS -->
+            </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact_us">
+        <div class="footer-container">
+            <div class="footer-col brand">
+                <div class="logo">
+                    <img src="./assets/logo.webp" alt="Chef4U">
+                </div>
+                <p>Delighting guests with exceptional catering for over 10 years.</p>
+
+                <div class="social-links">
+                    <a href="https://www.instagram.com/_.chef4u_99/" aria-label="Instagram" target="_blank"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg></a>
+                    <a href="https://www.facebook.com/people/Chef4u/61569903014177/" aria-label="Facebook"
+                        target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg></a>
+                </div>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about_us">About Us</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                </ul>
+            </div>
+            <div style="margin-top: 20px;">
+                <a href="./index.html#contactForm" class="btn btn-primary">Book Now</a>
+                <div class="contact-info">
+                    <p>📍 Kalpana Society, Navrangpura, Ahmedabad</p>
+                    <p>📞 <a href="tel:+919898002719" style="color: inherit; text-decoration: none;">+91 98980 02719</a>
+                    </p>
+                    <p>✉️ chefdhwani99@gmail.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chef4U Catering. All Rights Reserved.</p>
+            <div class="watermark-wrapper" style="display: flex; align-items: center; gap: 10px; margin-top: 30px;">
+                <span style="color: var(--text-gray); font-size: 0.9rem;">Made by</span>
+                <a href="https://vp1107.github.io/vm-creations/" class="logo-essential" target="_blank"
+                    style="font-size: 0.85rem;">
+                    <span class="vm">V&M</span>
+                    <span class="creations">CREATIONS</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/menu-data.js"></script>
+    <script src="./js/menu.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,716 @@
+/* --- Base & Variables --- */
+:root {
+    --primary-color: #8B4513;
+    /* Saddle Brown */
+    --accent-color: #e67e22;
+    /* Carrot Orange */
+    --bg-color: #fcefe9;
+    /* Light Beige/Cream */
+    --text-color: #3e2723;
+    /* Dark Brown */
+    --card-bg: #fff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+
+    /* Flipbook Variables */
+    --page-bg: #fffbf0;
+    --page-width: 550px;
+    --page-height: 750px;
+    --heading-color: #6d3b0e;
+    --arrow-color: #d6b25e;
+
+    /* Animations */
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7);
+        }
+
+        70% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 10px rgba(230, 126, 34, 0);
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(230, 126, 34, 0);
+        }
+    }
+}
+
+body {
+    background-color: var(--bg-color);
+    /* Matches --bg-light in style.css roughly */
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* --- Menu Page Container --- */
+.menu-page-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    min-height: 80vh;
+}
+
+/* --- View Sections (Overview vs Flipbook) --- */
+.view-section {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.view-section.hidden {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- Hero Section --- */
+.menu-hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.menu-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.menu-hero p {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* --- Download Button --- */
+.btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, var(--accent-color), #d35400);
+    color: white !important;
+    /* Force white text */
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid #fff;
+    box-shadow: 0 10px 20px rgba(230, 126, 34, 0.4);
+    animation: pulse 2s infinite;
+}
+
+.btn-download:hover {
+    animation: none;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(230, 126, 34, 0.6);
+    background: white;
+    color: var(--accent-color) !important;
+    border-color: var(--accent-color);
+}
+
+.btn-download svg {
+    stroke-width: 3px;
+}
+
+/* --- Search Bar Stlyes --- */
+.search-wrapper {
+    margin: 30px auto 40px;
+    max-width: 500px;
+    position: relative;
+    z-index: 999;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+#menu-search {
+    width: 100%;
+    padding: 15px 50px 15px 25px;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 30px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.3s;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    background: #fff;
+}
+
+#menu-search:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+}
+
+.search-results {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    max-height: 300px;
+    overflow-y: auto;
+    display: block;
+    /* Default to block, hidden class toggles it */
+    z-index: 9999;
+    /* Force On Top */
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.search-results.hidden {
+    display: none !important;
+}
+
+.result-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item:hover {
+    background-color: #fdf3eb;
+}
+
+.result-name {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.result-category {
+    font-size: 0.85rem;
+    color: #888;
+    background: #f5f5f5;
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+.no-results {
+    padding: 15px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+/* --- Search Result Enhancements --- */
+/* Highlight Matching Text */
+.highlight {
+    background-color: #ffd700;
+    font-weight: bold;
+    color: #3e2723;
+}
+
+/* Active State for Keyboard Navigation */
+.result-item.active {
+    background-color: #fcefe9;
+    border-left: 4px solid var(--accent-color);
+}
+
+.result-arrow {
+    font-size: 0.9rem;
+    color: #ccc;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.result-item:hover .result-arrow,
+.result-item.active .result-arrow {
+    opacity: 1;
+}
+
+.result-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Search Icon Pointer */
+.search-icon {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.search-icon:hover {
+    color: var(--accent-color);
+}
+
+
+/* --- Speciality Section --- */
+.speciality-box {
+    background: linear-gradient(135deg, #fff0e6, #fff);
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 15px rgba(230, 126, 34, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.speciality-box::before {
+    content: "★";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 8rem;
+    color: rgba(230, 126, 34, 0.1);
+    transform: rotate(15deg);
+}
+
+.speciality-box h2 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.speciality-cta {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: transform var(--transition-speed);
+}
+
+.speciality-cta:hover {
+    transform: scale(1.05);
+}
+
+/* --- Category Grid --- */
+.category-index {
+    margin-bottom: 50px;
+}
+
+.category-index h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.category-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+.category-card span.count {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* --- Recommendations --- */
+.recommendations h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.rec-card {
+    background: #fff;
+    padding: 2px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--accent-color);
+    padding: 20px;
+    transition: transform var(--transition-speed);
+}
+
+.rec-card:hover {
+    transform: translateX(5px);
+}
+
+.rec-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-color);
+}
+
+.rec-card .tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #555;
+}
+
+/* --- Flipbook Container & View --- */
+.book-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* Hidden by default via .hidden class above */
+}
+
+.book-controls-top {
+    margin-bottom: 20px;
+    width: 90%;
+    max-width: var(--page-width);
+    text-align: left;
+}
+
+/* --- Back Button Fix --- */
+.btn-back {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 10px 24px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all var(--transition-speed);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-back:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+/* The Book Element */
+#book {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+}
+
+/* --- Flipbook Page Styles --- */
+.page {
+    background-color: var(--page-bg);
+    padding: 40px;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    /* No Scroll inside book */
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
+    /* Paper Texture */
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(240, 240, 240, 0.3) 10%, rgba(255, 255, 255, 0) 20%),
+        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+.page.-hard {
+    background-color: #4a2c2a;
+    /* Dark leather */
+    color: #ffd700;
+    /* Gold */
+    border: 2px solid #2e1a19;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Back Cover Contrast Fix */
+.page.-hard h1,
+.page.-hard h2,
+.page.-hard h3,
+.page.-hard .cover-title,
+.page.-hard .menu-title {
+    color: #ffd700 !important;
+    /* Force Gold */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.page.-hard p,
+.page.-hard .contact-details p {
+    color: #fff !important;
+    /* Force White */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.page.-hard .website-link {
+    color: #d4a373 !important;
+}
+
+.cover-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    border: 2px solid #d4af37;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.cover-logo {
+    width: 100px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.cover-title {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    text-transform: uppercase;
+}
+
+.cover-subtitle {
+    font-size: 1rem;
+    font-style: italic;
+    color: #e0e0e0;
+}
+
+.cover-est {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #d4a373;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px double var(--heading-color);
+    padding-bottom: 10px;
+}
+
+.page-header h2 {
+    font-size: 1.8rem;
+    color: var(--heading-color);
+    margin: 0;
+}
+
+/* Index List in Flipbook */
+.index-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.index-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 5px;
+    border-bottom: 1px dotted #ccc;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+.index-link:hover {
+    color: var(--primary-color);
+}
+
+/* Menu Items in Flipbook */
+.menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.menu-item {
+    border-bottom: 1px dotted #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.menu-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #5d2906;
+}
+
+.menu-desc {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 2px 0 0 0;
+    line-height: 1.3;
+}
+
+.category-subheader,
+.category-subheader-mt {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 10px;
+}
+
+.category-subheader-mt {
+    margin-top: 20px;
+}
+
+/* Controls */
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn-control {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.btn-control:hover {
+    background-color: #a0522d;
+}
+
+.book-hint {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #888;
+    text-align: center;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .menu-page-container {
+        padding: 10px;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .menu-hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .book-wrapper {
+        min-height: auto;
+    }
+
+    /* Flipbook Page Mobile */
+    .page {
+        padding: 20px;
+    }
+
+    .cover-title {
+        font-size: 1.8rem;
+    }
+
+    .menu-title {
+        font-size: 1rem;
+    }
+
+    .menu-desc {
+        font-size: 0.85rem;
+    }
+
+    .btn-download {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+}
