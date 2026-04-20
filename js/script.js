@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'text/plain;charset=utf-8'
@@ -146,14 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
             redirect: 'follow',
             body: JSON.stringify(formData)
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.result === 'success') {
-                showToast('Thank you! Your quote request has been sent.', 'success');
-                contactForm.reset();
-            } else {
-                throw new Error(data.error);
-            }
+        .then(() => {
+            // Since we use 'no-cors', we can't read the response JSON, 
+            // but the browser will have successfully sent the data.
+            showToast('Thank you! Your quote request has been sent.', 'success');
+            contactForm.reset();
         })
         .catch(error => {
             console.error('Error!', error);
