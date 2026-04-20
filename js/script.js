@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwG_asQUzd-zAWU_JVq99fAhJ2I3rXUzI6-YTuwrGSJs2-w3I1IEn6sZabnhTF3Hi9G/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5yxasQVQ54_rDMi1qf7JsYBn1fBm5JZ-_AmdbLJWuE9-AFSvGGoE_-XyqVHycujxA/exec";
 
         const submitBtn = contactForm.querySelector('input[type="submit"]');
         const originalVal = submitBtn.value;
