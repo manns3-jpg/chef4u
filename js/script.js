@@ -124,7 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- GOOGLE SHEETS SUBMISSION ---
             // REPLACE THIS URL WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
-            const SCRIPT_URL = 'INSERT_YOUR_GOOGLE_SCRIPT_URL_HERE';
+            // --- GOOGLE SHEETS SUBMISSION ---
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwG_asQUzd-zAWU_JVq99fAhJ2I3rXUzI6-YTuwrGSJs2-w3I1IEn6sZabnhTF3Hi9G/exec";
 
             const submitBtn = contactForm.querySelector('input[type="submit"]');
             const originalVal = submitBtn.value;
@@ -139,36 +140,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 message: document.getElementById('message').value
             };
 
-            if (SCRIPT_URL === 'INSERT_YOUR_GOOGLE_SCRIPT_URL_HERE') {
-                showToast('⚠️ Please configure the Google Script URL in js/script.js', 'error');
-                submitBtn.value = originalVal;
-                submitBtn.disabled = false;
-                return;
-            }
-
             // Send to Google Sheets
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                // Google Apps Script requires text/plain for CORS reasons with simple requests
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
                 body: JSON.stringify(formData)
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.result === 'success') {
-                        showToast('Thank you! Your quote request has been sent.', 'success');
-                        contactForm.reset();
-                    } else {
-                        throw new Error(data.error || 'Submission failed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error!', error);
-                    showToast('Something went wrong. Please try again later.', 'error');
-                })
-                .finally(() => {
-                    submitBtn.value = originalVal;
-                    submitBtn.disabled = false;
-                });
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    showToast('Thank you! Your quote request has been sent.', 'success');
+                    contactForm.reset();
+                } else {
+                    throw new Error(data.error || 'Submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error);
+                showToast('Something went wrong. Please try again later.', 'error');
+            })
+            .finally(() => {
+                submitBtn.value = originalVal;
+                submitBtn.disabled = false;
+            });
         });
     }
 
