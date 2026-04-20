@@ -119,55 +119,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-            // --- GOOGLE SHEETS SUBMISSION ---
-            // REPLACE THIS URL WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
-            // --- GOOGLE SHEETS SUBMISSION ---
-            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwG_asQUzd-zAWU_JVq99fAhJ2I3rXUzI6-YTuwrGSJs2-w3I1IEn6sZabnhTF3Hi9G/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwG_asQUzd-zAWU_JVq99fAhJ2I3rXUzI6-YTuwrGSJs2-w3I1IEn6sZabnhTF3Hi9G/exec";
 
-            const submitBtn = contactForm.querySelector('input[type="submit"]');
-            const originalVal = submitBtn.value;
-            submitBtn.value = 'Sending...';
-            submitBtn.disabled = true;
+        const submitBtn = contactForm.querySelector('input[type="submit"]');
+        const originalVal = submitBtn.value;
+        submitBtn.value = 'Sending...';
+        submitBtn.disabled = true;
 
-            // Collect form data
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                message: document.getElementById('message').value
-            };
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            message: document.getElementById('message').value
+        };
 
-            // Send to Google Sheets
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    showToast('Thank you! Your quote request has been sent.', 'success');
-                    contactForm.reset();
-                } else {
-                    throw new Error(data.error || 'Submission failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error!', error);
-                showToast('Something went wrong. Please try again later.', 'error');
-            })
-            .finally(() => {
-                submitBtn.value = originalVal;
-                submitBtn.disabled = false;
-            });
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+            },
+            redirect: 'follow',
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success') {
+                showToast('Thank you! Your quote request has been sent.', 'success');
+                contactForm.reset();
+            } else {
+                throw new Error(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error!', error);
+            showToast('Something went wrong. Please try again later.', 'error');
+        })
+        .finally(() => {
+            submitBtn.value = originalVal;
+            submitBtn.disabled = false;
         });
-    }
 
+    }); // ✅ THIS WAS MISSING
+}
     // --- Copyright Year Update ---
     // Fix: Using a more robust selector in case .credit is missing or nested differently
     // Checking for both .credit and the generic footer p that contains the copyright
