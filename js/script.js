@@ -141,14 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
             mode: 'no-cors',
             cache: 'no-cache',
             headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            redirect: 'follow',
-            body: JSON.stringify(formData)
+            body: new URLSearchParams(formData).toString()
         })
         .then(() => {
-            // Since we use 'no-cors', we can't read the response JSON, 
-            // but the browser will have successfully sent the data.
+            // Success toast (optimistic)
             showToast('Thank you! Your quote request has been sent.', 'success');
             contactForm.reset();
         })

@@ -1,50 +1,51 @@
 /**
- * Google Apps Script for Chef4U Catering Contact Form
+ * Google Apps Script for Chef4U Catering Contact Form - ROBUST VERSION
  * 
  * INSTRUCTIONS:
- * 1. Go to https://sheets.google.com and create a new Sheet named "Chef4U Inquiries".
- * 2. Name the first tab/sheet: 'Leads'.
- * 3. In 'Leads', add headers in Row 1: Timestamp, Name, Email, Phone, Message.
- * 4. Go to Extensions > Apps Script.
- * 5. Delete any existing code and paste this entire code.
- * 6. Update the RECIPIENT_EMAIL constant below.
- * 7. Click 'Deploy' > 'New deployment'.
- * 8. Select type: 'Web app'.
- * 9. Description: 'Contact Form v1'.
- * 10. Execute as: 'Me'.
- * 11. Who has access: 'Anyone' (IMPORTANT!).
- * 12. Click 'Deploy'.
- * 13. Copy the 'Web App URL' (ends in /exec).
- * 14. Paste this URL into your website's js/script.js file variable GOOGLE_SCRIPT_URL.
+ * 1. Go to your Google Sheet > Extensions > Apps Script.
+ * 2. Delete ALL existing code and replace it with this version.
+ * 3. Click 'Save' and then 'Deploy' > 'New Deployment'.
+ * 4. Choose 'Web App', Execute as 'Me', Access 'Anyone'.
+ * 5. Click 'Deploy' and copy the NEW Web App URL.
  */
 
-const RECIPIENT_EMAIL = "chefdhwani99@gmail.com"; // Updated to client email from footer
+const RECIPIENT_EMAIL = "chefdhwani99@gmail.com";
 
 function doPost(e) {
     try {
         const lock = LockService.getScriptLock();
         lock.tryLock(10000);
 
-        const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Leads');
+        // Robust sheet selection: try 'Leads' first, then fall back to the first sheet
+        const ss = SpreadsheetApp.getActiveSpreadsheet();
+        let sheet = ss.getSheetByName('Leads');
         if (!sheet) {
-            return ContentService.createTextOutput(JSON.stringify({ "result": "error", "error": "Leads sheet not found" }))
-                .setMimeType(ContentService.MimeType.JSON);
+            sheet = ss.getSheets()[0]; // Fallback to first tab if 'Leads' is missing
         }
 
         const nextRow = sheet.getLastRow() + 1;
 
-        // Parse the post data
-        const data = JSON.parse(e.postData.contents);
+        // Data extraction from standard form parameters or JSON body
+        let data = {};
+        if (e.postData && e.postData.contents) {
+            try {
+                data = JSON.parse(e.postData.contents);
+            } catch (err) {
+                // Not JSON, use parameters instead
+                data = e.parameter;
+            }
+        } else {
+            data = e.parameter;
+        }
 
-        const newRow = [];
         const timestamp = new Date();
-
-        // Add data in specific order matching headers
-        newRow.push(timestamp); // Column A: Timestamp
-        newRow.push(data.name); // Column B: Name
-        newRow.push(data.email); // Column C: Email
-        newRow.push(data.phone); // Column D: Phone
-        newRow.push(data.message); // Column E: Message
+        const newRow = [
+            timestamp,
+            data.name || "N/A",
+            data.email || "N/A",
+            data.phone || "N/A",
+            data.message || "N/A"
+        ];
 
         sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow]);
 
@@ -54,8 +55,8 @@ function doPost(e) {
         return ContentService.createTextOutput(JSON.stringify({ "result": "success" }))
             .setMimeType(ContentService.MimeType.JSON);
 
-    } catch (e) {
-        return ContentService.createTextOutput(JSON.stringify({ "result": "error", "error": e.toString() }))
+    } catch (err) {
+        return ContentService.createTextOutput(JSON.stringify({ "result": "error", "error": err.toString() }))
             .setMimeType(ContentService.MimeType.JSON);
     } finally {
         LockService.getScriptLock().releaseLock();
@@ -63,16 +64,16 @@ function doPost(e) {
 }
 
 function sendEmailNotification(data) {
-    const subject = `New Catering Inquiry from ${data.name} - Chef4U`;
+    const subject = `New Catering Inquiry from ${data.name || "Customer"} - Chef4U`;
     const body = `
     You have received a new catering inquiry!
     
-    Name: ${data.name}
-    Email: ${data.email}
-    Phone: ${data.phone}
+    Name: ${data.name || "N/A"}
+    Email: ${data.email || "N/A"}
+    Phone: ${data.phone || "N/A"}
     
     Message:
-    ${data.message}
+    ${data.message || "No message provided."}
     
     -----------------------------------
     This email was sent automatically from your Chef4U website contact form.
@@ -82,6 +83,6 @@ function sendEmailNotification(data) {
         to: RECIPIENT_EMAIL,
         subject: subject,
         body: body,
-        replyTo: data.email // Allows you to directly reply to the customer
+        replyTo: data.email || null
     });
 }
